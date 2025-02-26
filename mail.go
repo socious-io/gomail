@@ -65,7 +65,3 @@ func SendWithTemplate(options SendOptions) error {
 	}
 	return nil
 }
-
-func GetTemplates() map[string]string {
-	return config.Templates
-}

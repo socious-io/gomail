@@ -1,5 +1,7 @@
 package gomail
 
+import "github.com/socious-io/gomq"
+
 // The global config variable holds the configuration for the application.
 var config = new(Config)
 
@@ -11,6 +13,8 @@ type Config struct {
 	DefaultFrom    string
 	DefaultSubject string
 	Templates      map[string]string
+	WorkerChannel  string
+	MessageQueue   gomq.MessageQueue
 }
 
 // Setup initializes the Mail SDK with the provided configuration.
