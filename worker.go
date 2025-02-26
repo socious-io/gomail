@@ -4,8 +4,6 @@ import (
 	"fmt"
 )
 
-var EmailChannel = config.WorkerChannel
-
 type EmailApproach string
 
 const (
@@ -22,7 +20,7 @@ type EmailConfig struct {
 }
 
 func SendEmail(emailConfig EmailConfig) {
-	config.MessageQueue.SendJson(EmailChannel, emailConfig)
+	config.MessageQueue.SendJson(config.WorkerChannel, emailConfig)
 }
 
 func EmailWorker(message interface{}) {
