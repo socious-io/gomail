@@ -10,12 +10,12 @@ import (
 )
 
 type SendOptions struct {
-	address    string
-	name       string
-	from       *string
-	subject    *string
-	templateId string
-	items      map[string]string
+	Address  string
+	Name     string
+	From     *string
+	Subject  *string
+	Template string
+	Items    map[string]string
 }
 
 func SendWithTemplate(options SendOptions) error {
@@ -25,29 +25,29 @@ func SendWithTemplate(options SendOptions) error {
 
 	//Set Variables
 	var from, subject string
-	if options.from == nil {
+	if options.From == nil {
 		from = config.DefaultFrom
 	} else {
-		from = *options.from
+		from = *options.From
 	}
-	if options.from == nil {
+	if options.From == nil {
 		subject = config.DefaultSubject
 	} else {
-		from = *options.subject
+		from = *options.Subject
 	}
 
 	//Create Mail payload
 	m := mail.NewV3Mail()
 	m.SetFrom(mail.NewEmail(subject, from))
-	m.SetTemplateID(options.templateId)
+	m.SetTemplateID(options.Template)
 
 	//Adding Personalization
 	p := mail.NewPersonalization()
 	tos := []*mail.Email{
-		mail.NewEmail(options.name, options.address),
+		mail.NewEmail(options.Name, options.Address),
 	}
 	p.AddTos(tos...)
-	for key, value := range options.items {
+	for key, value := range options.Items {
 		p.SetDynamicTemplateData(key, value)
 	}
 	m.AddPersonalizations(p)
@@ -64,4 +64,8 @@ func SendWithTemplate(options SendOptions) error {
 		return errors.New(response.Body)
 	}
 	return nil
+}
+
+func GetTemplates() map[string]string {
+	return config.Templates
 }
